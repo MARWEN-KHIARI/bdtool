@@ -1,0 +1,81 @@
+<body bgcolor="#DDEBF7">
+<form id="form1">
+    <br style="margin: 50px"/>
+    table name <input type="text" id="name_table" placeholder="`name_table`"><br/>
+    table tag <textarea name="tag_table" id="tag_table" class="form-control" rows="10" placeholder="(`id`, `tag1`, ...)" style="width: 100%"></textarea>
+    <br/>
+    table values <textarea name="tag_table" id="val_table" class="form-control" rows="10" placeholder="(0, 'val_1', ...)" style="width: 100%"></textarea>
+    <br/>
+    <br style="margin: 50px"/>
+<button type="button" class="btn-submit" id="form1_btn"
+        style="font-weight: 600;border: 1px solid black;padding: 10px" onclick="sendform1();">Submit</button>
+</form>
+<form id="form2" style="display: none">
+    <div id="form2_content"></div>
+    <br style="margin: 50px"/>
+    <button type="button" class="btn-submit" id="form2_btn"
+            style="font-weight: 600;border: 1px solid black;padding: 10px" onclick="sendform2();">Submit</button>
+</form>
+<form id="form3" style="display: none">
+    <div id="form3_content"></div>
+    <br style="margin: 50px"/>
+
+    <button type="button" class="btn-submit" id="form3_btn"
+            style="font-weight: 600;border: 1px solid black;padding: 10px" onclick="">Copy to clipboard</button>
+</form>
+
+<br style="margin: 50px"/>
+</body>
+
+
+<link rel="stylesheet" href="js/highlight/styles/default.css">
+<script src="js/highlight/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script src="js/jquery.min.js"></script>
+
+<script src="js/clipboard.min.js"></script>
+
+
+<script src="js/script.min.js"></script>
+
+<script>
+
+    var nmt = $("#name_table").val();
+    var vvr = $("#tag_table").val();
+    var txt = $("#val_table").val();
+
+
+    var dataTag = sperateTag(vvr);
+    var data = sperateValue(txt);
+
+    function sendform1() {
+        $("#form1").hide();
+        $("#form2_content").html(modifyReq());
+        $("#form2").show();
+    }
+
+    function sendform2() {
+        $("#form2").hide();
+        $("#form3_content").html(sqlcreate());
+        $("#form3").show();
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        })
+    }
+
+
+    var clipboard = new Clipboard('#copydiv', {
+        text: function() {
+            return sqlcreate();
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+</script>
